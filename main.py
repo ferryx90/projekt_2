@@ -15,6 +15,22 @@ print(
     )
 
 
+def generate_random_num() -> int:
+    """
+    Generates a random 4-digit number with unique digits.
+    Ensures that:
+        - the number does not begin with 0,
+        - all digits are unique.
+    Returns:
+        int: A 4-digit integer with non-repeating digits and a non-zero first digit.
+    """
+    number_one = random.sample(range(10), 5)
+    random_number = number_one[0:4]
+    if number_one[0] == 0:
+        random_number = number_one[1:5]
+    return int("".join(map(str, random_number)))
+          
+
 def check_number(number : str) -> bool:
     """Checks if the number is correct to play bulls and cows game.
     Paremeter:
@@ -56,9 +72,7 @@ def bulls_and_cows(random_number : str, number: str) -> tuple[int, int]:
     for index in range(4):
         if number[index] == random_number[index]:
             bulls += 1
-        
-    for index in range(4):
-        if number[index] != random_number[index] and number[index] in random_number:
+        elif number[index] != random_number[index] and number[index] in random_number:
             cows += 1
     return bulls, cows
 
@@ -87,7 +101,7 @@ def play_game(random_number: str) -> None:
     For each guess, the number of "bulls" (correct digit in the correct position)
     and "cows" (correct digit in the wrong position) is counted and displayed.
     Parameters:
-        Random_number (str): The randomly generated 4-digit number with unique digit.
+        random_number (str): The randomly generated 4-digit number with unique digit.
     Returns:
         None
     """
@@ -113,10 +127,10 @@ def play_game(random_number: str) -> None:
     print(f"You have not guessed the number {random_number} in 15 attempts. You lose!")
 
 if __name__ == "__main__":
-    while True:
-        random_number = random.randint(1000,9999)
-        if len(set(str(random_number))) == 4:
-            break
+    random_number = generate_random_num()
+    play_game(random_number)   
+    print("-" * 46)
 
-play_game(random_number)   
-print("-" * 46)
+
+
+    
